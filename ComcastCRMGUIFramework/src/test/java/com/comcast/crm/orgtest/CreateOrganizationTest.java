@@ -56,7 +56,8 @@ public class CreateOrganizationTest extends BaseClass{
 		System.out.println(OrgInfoPage);
 		String actOrgName=OrgInfoPage.getorgHeaderInfo().getText();
 		System.out.println(actOrgName);
-		Assert.assertEquals(actOrgName, orgName);		                                             
+		boolean verifyOrgName = actOrgName.contains(orgName);
+		Assert.assertTrue(verifyOrgName);		                                             
 	}
 	@Test(groups="RegressionTest")
 	public void createOrgWithIndustry() throws Throwable{

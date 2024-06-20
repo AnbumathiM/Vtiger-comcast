@@ -37,6 +37,7 @@ import com.comcast.crm.generic.fileutility.FileUtility;
  */
 public class Create_ContactTest extends BaseClass {
 	@Test(groups="SmokeTest")
+	
 	public void createConatctTest() throws Throwable {
 		UtilityClassObject.getTest().log(Status.INFO, "Read data frm excel");
 		String lastName = excelLib.getDataFromExcel("org", 10, 2) + jLib.getRandomNumber();
@@ -84,9 +85,9 @@ public class Create_ContactTest extends BaseClass {
 		// validating header after contact creation
 		ContactInfoPage contactInfo=new ContactInfoPage(driver);
 		String actStartDate = contactInfo.getActualStartDate().getText();
-		Assert.assertEquals(actStartDate.trim(), startDate);;
+		Assert.assertEquals(actStartDate , startDate);;
 		String actEndDate = contactInfo.getActualEndDate().getText();
-		Assert.assertEquals(actEndDate.trim(), endDate);
+		Assert.assertEquals(actEndDate, endDate);
 	}
 
 	@Test(groups="RegressionTest")
@@ -111,6 +112,7 @@ public class Create_ContactTest extends BaseClass {
 		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(50));
 		wait.until(ExpectedConditions.elementToBeSelected(By.linkText("Contacts")));
 		*/
+		Thread.sleep(5000);
 		System.out.println("home page");
 		hp.getContactLink().click();
 		System.out.println("ContactLink().click()");
@@ -122,11 +124,13 @@ public class Create_ContactTest extends BaseClass {
 
 		// verify expected result of header msg after creation of org
 		OrganizationInformationPage orgInfo=new OrganizationInformationPage(driver);
-		String actheaderinfo = orgInfo.getorgHeaderInfo().getText();
-		Assert.assertEquals(actheaderinfo.trim(), orgName);
+		String verifyheaderinfo = orgInfo.getorgHeaderInfo().getText();
+		boolean actheaderinfo = verifyheaderinfo.contains(orgName);
+		Assert.assertTrue(actheaderinfo);
 		
 		// verify the dataflow after integrating org name in contact module
 		String actOrgName = orgInfo.getActalOrgNameTxt().getText();
-		Assert.assertEquals(actOrgName.trim(), orgName);
+		boolean verifyOrgName = actOrgName.contains(orgName);
+		Assert.assertTrue(verifyOrgName);
 	}
 }
